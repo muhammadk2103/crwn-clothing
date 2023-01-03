@@ -1,28 +1,25 @@
 import React from "react";
-import SHOP_DATA from "./shop.data";
-import "../collection-preview/collection-preview";
-import CollectionPreview from "../collection-preview/collection-preview";
+import { matchPath, useRoutes } from "react-router-dom";
 
-class ShopPage extends React.Component {
-    constructor(props) {
-        super(props);
+import CollectiondOverview from '../../components/collections-overview/collections-overview.component';
+import CollectionPage from "../../pages/collection/collection.component";
 
-        this.state = {
-            collections: SHOP_DATA
-        }
-    }
+const ShopPage = () => {
+    // eslint-disable-next-line no-restricted-globals
+    const match = matchPath({ path: "/shop/:categoryId" }, `${location.pathname}`);
+    
+    let element = useRoutes([
+        {path: `${match ? match.params.categoryId : `/nothing`}`, element: <CollectionPage />},
+        {path: `/`, element: <CollectiondOverview />}
+    ]);
 
-    render() {
-        const {collections} = this.state;
-        return (
-            <div className="shop-page">
-                {collections.map(({id, ...otherCollectionProps}) => (
-                    <CollectionPreview key={id} {...otherCollectionProps}/>
-                ))}
-            </div>
-        );
-    }
+    console.log(match);
+    return (
+        <div className="shop-page">
+            {element}
+        </div>
+    )
 
-}
+};
 
 export default ShopPage;
