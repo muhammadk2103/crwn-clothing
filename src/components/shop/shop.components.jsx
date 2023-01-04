@@ -1,24 +1,22 @@
 import React from "react";
-import { matchPath, useRoutes } from "react-router-dom";
+import { matchPath, useLocation, Route, Routes } from "react-router-dom";
 
 import CollectiondOverview from '../../components/collections-overview/collections-overview.component';
 import CollectionPage from "../../pages/collection/collection.component";
 
 const ShopPage = () => {
-    // eslint-disable-next-line no-restricted-globals
-    const match = matchPath({ path: "/shop/:categoryId" }, `${location.pathname}`);
-    
-    let element = useRoutes([
-        {path: `${match ? match.params.categoryId : `/nothing`}`, element: <CollectionPage />},
-        {path: `/`, element: <CollectiondOverview />}
-    ]);
+    const { pathname } = useLocation();
+    const address = matchPath( { path: "/shop/:collectionId" }, `${pathname}`);
 
-    console.log(match);
     return (
         <div className="shop-page">
-            {element}
+            <Routes>{
+                address
+                ? (<Route path={`${address.params.collectionId}`} element={<CollectionPage address={address.params.collectionId} />} />)
+                : (<Route path="/" element={<CollectiondOverview />} />)
+            }</Routes>
         </div>
-    )
+    );
 
 };
 
