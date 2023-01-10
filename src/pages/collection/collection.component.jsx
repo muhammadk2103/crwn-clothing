@@ -13,6 +13,7 @@ import {
 
 const CollectionPage = ({ collection }) => {
   const { title, items } = collection;
+
   return (
     <CollectionPageContainer>
       <CollectionTitle>{title}</CollectionTitle>
@@ -25,8 +26,7 @@ const CollectionPage = ({ collection }) => {
   );
 };
 
-function mapStateToProps(state, ownProps) { 
-  const { address } = ownProps
+function mapStateToProps(state, { address }) { 
   return {
     collection: selectCollection(address)(state)
   }

@@ -1,8 +1,10 @@
 import React from 'react';
 import {Routes, Route, Navigate} from 'react-router-dom';
-import { onSnapshot} from 'firebase/firestore';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+
+import { auth, creaeteUserProfileDocument } from './firebase/firebase.utils';
+import { onSnapshot} from 'firebase/firestore';
 
 import './App.css';
 
@@ -13,18 +15,21 @@ import ShopPage from './pages/shop/shop.components';
 
 import Header from './components/header/header.component';
 
-import { auth, creaeteUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+
 
 class App extends React.Component{
   unSubscribeFromAuth = null
 
   componentDidMount() {
+
     const { setCurrentUser } = this.props;
+
     this.unSubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await creaeteUserProfileDocument(userAuth);
+
         onSnapshot(userRef, (snapShot) => {
           setCurrentUser({
             id: snapShot.id,
@@ -33,6 +38,7 @@ class App extends React.Component{
         });
       } 
       setCurrentUser(userAuth);
+      
     });
   }
 
@@ -46,7 +52,7 @@ class App extends React.Component{
         <Header />
         <Routes>
           <Route path='/' element={<HomePage />} />
-          <Route path='/shop/*' element={<ShopPage />} />
+          <Route path='/shop/*' element={<ShopPage match={window.location.pathname} />} />
           <Route path='/checkout' element={<CheckoutPage />} /> 
           <Route path="/signin" element={
               this.props.currentUser 
