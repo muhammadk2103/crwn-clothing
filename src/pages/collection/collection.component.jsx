@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 
 import CollectionItem from '../../components/collection-item/collection-item.component';
-
 import { selectCollection } from "../../redux/shop/shop.selectors";
 
 import {
@@ -12,7 +11,7 @@ import {
 } from './collection.styles';
 
 const CollectionPage = ({ collection }) => {
-  const { title, items } = collection;
+  const { title, items } = collection
 
   return (
     <CollectionPageContainer>
@@ -26,7 +25,7 @@ const CollectionPage = ({ collection }) => {
   );
 };
 
-function mapStateToProps(state, { address }) { 
+function mapStateToProps(state, { address }) {
   return {
     collection: selectCollection(address)(state)
   }

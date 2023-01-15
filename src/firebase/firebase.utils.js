@@ -1,5 +1,5 @@
 // import firebase from 'firebase';
-import {initializeApp} from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import { doc, getFirestore, getDoc, setDoc, collection, writeBatch } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
@@ -72,8 +72,17 @@ export const convertCollectionsSnapshotToMap = (collections) => {
   }, {});
 };
 
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account'});
-export const signInWithGoogle = () => signInWithPopup(auth, provider);
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject)
+  });
+}
+
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account'});
+export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 
 export default app;
