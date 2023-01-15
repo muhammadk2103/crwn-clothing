@@ -11,7 +11,21 @@ import {
 } from './collection.styles';
 
 const CollectionPage = ({ collection }) => {
-  const { title, items } = collection
+  // useEffect(() => {
+  //   console.log('I am subscribing');
+  //   const collectionRef = collection(firestore, 'collections')
+  //   const unsubscribeFromCollections = onSnapshot(
+  //     collectionRef, 
+  //     snapShot => console.log(snapShot)
+  //   );
+    
+  //   return () => { 
+  //     console.log('I am unsubscribing');
+  //     unsubscribeFromCollections();
+  //   }
+  // }, []);
+
+  const { title, items } = collection;
 
   return (
     <CollectionPageContainer>
