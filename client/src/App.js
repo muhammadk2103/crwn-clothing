@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import { useSelector, useDispatch } from 'react-redux';
 
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import HomePage from './pages/homepage/homepage.component';
@@ -9,26 +8,26 @@ import CheckoutPage from './pages/checkout/checkout.component';
 import ShopPage from './pages/shop/shop.components';
 
 import Header from './components/header/header.component';
-import { withRouter } from './components/with-spinner/with-spinner.component';
 
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { checkUserSession } from './redux/user/user.actions';
 
 import './App.css';
 
-const ShopPageWithRouter = withRouter(ShopPage);
+const App = () => {
+  const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
 
-const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
-    checkUserSession();
-  }, [checkUserSession]);
+    dispatch(checkUserSession());
+  }, [dispatch]);
 
   return (
     <div>
       <Header />
       <Routes>
         <Route path='/' element={<HomePage />} />
-        <Route path='/shop/*' element={<ShopPageWithRouter />} />
+        <Route path='/shop/*' element={<ShopPage />} />
         <Route path='/checkout' element={<CheckoutPage />} /> 
         <Route path="/signin" element={
             currentUser 
@@ -40,12 +39,4 @@ const App = ({ checkUserSession, currentUser }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
-});
-
-const mapDispatchToProps = dispatch => ({
-  checkUserSession: () => dispatch(checkUserSession())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

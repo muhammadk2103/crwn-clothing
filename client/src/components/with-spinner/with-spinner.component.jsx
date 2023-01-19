@@ -5,10 +5,11 @@ import {
   SpinnerOverlay
 } from './with-spinner.styles';
 
-import { useLocation, matchPath } from 'react-router-dom';
+import { useLocation, matchPath, useParams } from 'react-router-dom';
 
 export function withRouter(Component) {
   function ComponentWithRouterProp(props) {
+    let params = useParams();
     let { pathname } = useLocation();
     let match = matchPath( { path: "/shop/:collectionId" }, `${pathname}`);
     
@@ -17,6 +18,7 @@ export function withRouter(Component) {
         {...props}
         pathname={pathname}
         match={match}
+        params={params}
       />
     );
   }
