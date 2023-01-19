@@ -8,9 +8,10 @@
   "scripts": {
     "client": "cd client && yarn start",
     "server": "nodemon server.js",
-    "build": "cd client/ && yarn install && yarn build",
+    "build": "cd client/ && yarn build",
     "dev": "concurrently --kill-others-on-fail \"yarn server \" \"yarn client\"",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
