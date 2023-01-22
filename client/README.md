@@ -1,6 +1,3 @@
-## Lesson-14
-
-We now need to create our cart feature in our application. To start, we'll create our cartIcon and cartDropdown components. Then we'll create the necessary reducer, actions, and types associated to handling hiding and showing the carDropdown component.
 
 # How to fork and clone
 
