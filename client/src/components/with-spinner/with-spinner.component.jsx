@@ -1,9 +1,6 @@
 import React from "react";
 
-import {
-  SpinnerContainer, 
-  SpinnerOverlay
-} from './with-spinner.styles';
+import Spinner from "../spinner/spinner.component";
 
 import { useLocation, matchPath, useParams } from 'react-router-dom';
 
@@ -30,9 +27,7 @@ const WithSpinner = (WrappedComponent) =>
   ({ isLoading, ...otherProps }) => {
     return isLoading
       ? (
-      <SpinnerOverlay>
-        <SpinnerContainer />
-      </SpinnerOverlay>
+      <Spinner/>
       ) : (
       <WrappedComponent {...otherProps} />
       )
